@@ -1,5 +1,5 @@
 import User from '../models/user.model.js';
-import generateToken from '../utils/generate.token.utils.js';
+import generateToken from '../utils/generateToken.js';
 
 export const registerUser = async (req, res) => {
   try {

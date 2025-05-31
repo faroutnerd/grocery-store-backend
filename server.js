@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 
-import { connectDB } from './src/config/database.config.js'
+import { connectDB } from './src/config/db.js'
 
 import authRoutes from './src/routes/auth.route.js';
 import userRoutes from './src/routes/user.route.js';
@@ -15,10 +15,11 @@ import { notFound, errorHandler } from './src/middlewares/error.middleware.js';
 const app = express();
 
 dotenv.config();
+connectDB();
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-app.use(cors);
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) =>{
@@ -26,11 +27,11 @@ app.get('/', (req, res) =>{
 })
 
 // Routes
-app.use('api/auth', authRoutes);
-app.use('api/users', userRoutes);
-app.use('api/products', productRoutes);
-app.use('api/orders', ordersRoutes);
-app.use('api/inventory', inventoryRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', ordersRoutes);
+app.use('/api/inventory', inventoryRoutes);
 
 // Error Handling Middleware
 app.use(notFound);
@@ -38,5 +39,4 @@ app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`server running on port number ${PORT}`);
-    connectDB();
 });
